@@ -1,4 +1,4 @@
-# Core framework
 flask
 python-dotenv
 gunicorn
+flask_sqlalchemy
