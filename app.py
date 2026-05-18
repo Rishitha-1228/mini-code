@@ -1,17 +1,11 @@
-import os
-import shutil
-from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session, Response
-from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
-from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.llms import Ollama
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain_chroma import Chroma
-from langchain.prompts import PromptTemplate
-from langchain_core.runnables import RunnablePassthrough
-from langchain_core.output_parsers import StrOutputParser
+# from langchain_community.document_loaders import PyPDFLoader
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain_community.llms import Ollama
+# from langchain_community.embeddings import OllamaEmbeddings
+# from langchain_chroma import Chroma
+# from langchain.prompts import PromptTemplate
+# from langchain_core.runnables import RunnablePassthrough
+# from langchain_core.output_parsers import StrOutputParser
 import json
 from fpdf import FPDF
 
@@ -31,9 +25,9 @@ DB_PATH = 'chroma_medical_db'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(DB_PATH, exist_ok=True)
-llm = Ollama(model="llama3.2:1b")
-embedding_model = OllamaEmbeddings(model="nomic-embed-text")
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=750, chunk_overlap=100)
+# llm = Ollama(model="llama3.2:1b")
+# embedding_model = OllamaEmbeddings(model="nomic-embed-text")
+# text_splitter = RecursiveCharacterTextSplitter(chunk_size=750, chunk_overlap=100)
 vectorstore = None
 rag_chain = None
 
@@ -291,4 +285,6 @@ def download_analysis_pdf():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True, port=5001, use_reloader=False)
+
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
